@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="PT">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso cfo</title>
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+    </style>
+</head>
+
+<body>
+
+    <form onsubmit="somar(event)">
+        <div id="divisoria1">
+            <label>Digite o 1º valor: </label>
+            <br>
+            <input id="campo1" type="number" required>
+        </div>
+
+        <div id="divisoria2" style="margin-top: 20px;">
+            <label>Digite o 2º valor: </label>
+            <br>
+            <input id="campo2" type="number" required>
+        </div>
+
+        <div id="divisoria3">
+            <br>
+            <button type="submit">Somar</button>
+        </div>
+    </form>
+
+    <div id="divisoria4">
+        <br>
+        <label id="res">Resultado: </label>
+    </div>
+
+    <script>
+        function somar(event) {
+            event.preventDefault(); // Impede o envio padrão do formulário
+
+            const v1 = parseFloat(document.getElementById("campo1").value);
+            const v2 = parseFloat(document.getElementById("campo2").value);
+            const resultado = v1 + v2;
+
+            document.getElementById("res").innerText = "Resultado: " + resultado;
+        }
+    </script>
+
+</body>
+
+</html>
