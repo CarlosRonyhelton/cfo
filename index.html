@@ -20,14 +20,15 @@
 <body>
 
     <form onsubmit="somar(event)">
+
         <div id="divisoria1">
-            <label>Digite o 1º valor: </label>
+            <label>Dige o 1º valor: </label>
             <br>
             <input id="campo1" type="number" required>
         </div>
 
         <div id="divisoria2" style="margin-top: 20px;">
-            <label>Digite o 2º valor: </label>
+            <label>Dige o 2º valor: </label>
             <br>
             <input id="campo2" type="number" required>
         </div>
@@ -36,22 +37,38 @@
             <br>
             <button type="submit">Somar</button>
         </div>
+
+
+         <div id="divisoria4">
+            <br>
+            <button onclick="limpar()">Limpar</button>
+        </div>
+
+        <div id="divisoria4">
+            <br>
+            <label id="res">Resultado: </label>
+        </div>
+
     </form>
 
-    <div id="divisoria4">
-        <br>
-        <label id="res">Resultado: </label>
-    </div>
+
 
     <script>
         function somar(event) {
-            event.preventDefault(); // Impede o envio padrão do formulário
 
-            const v1 = parseFloat(document.getElementById("campo1").value);
-            const v2 = parseFloat(document.getElementById("campo2").value);
-            const resultado = v1 + v2;
+            event.preventDefault(); // Impede a submissão do form
 
-            document.getElementById("res").innerText = "Resultado: " + resultado;
+            const v1 = document.getElementById("campo1").value;
+            const v2 = document.getElementById("campo2").value;
+            const v3 = parseFloat(v1) + parseFloat(v2);
+
+            document.getElementById("res").innerText = "Resultado: " + v3;
+        }
+
+        function limpar() {
+            document.getElementById("campo1").value = "";
+            document.getElementById("campo2").value = "";
+            document.getElementById("res").innerText = "Resultado: ";
         }
     </script>
 
