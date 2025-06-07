@@ -1,77 +1,66 @@
 <!DOCTYPE html>
-<html lang="PT">
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Curso cfo</title>
+    <title>Pressão na ABT</title>
 
     <style>
-        body {
+         body {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             flex-direction: column;
         }
+        span{
+            font-size: 10px;
+            color: #f33636;
+        }
+
+        #divisoria{
+            margin-top: 15px;
+        }
     </style>
 </head>
-
 <body>
 
-    <form onsubmit="somar(event)">
-
-        <div id="divisoria1">
-            <label>Dige o 1º valor: </label>
-            <br>
-            <input id="campo1" type="number" required>
+    <form onsubmit="calcular(event)">
+        <div id="divisoria">
+            <label>Quantidade de pavimentos: </label><br>
+            <input id="qtdPavimentos" type="number" required><br>
         </div>
 
-        <div id="divisoria2" style="margin-top: 20px;">
-            <label>Dige o 2º valor: </label>
-            <br>
-            <input id="campo2" type="number" required>
+         <div id="divisoria">
+            <label>Quantidade de mangueiras [1,5"]: </label><br>
+            <input id="qtdMangueira1" type="number" required><br>
+            <span>Preencher com 0 caso não se aplique</span><br>
         </div>
 
-        <div id="divisoria3">
-            <br>
-            <button type="submit">Somar</button>
+        <div id="divisoria">
+            <label>Quantidade de mangueiras [2,5"]: </label><br>
+            <input id="qtdMangueira2" type="number" required><br>
+            <span>Preencher com 0 caso não se aplique</span>
         </div>
 
-
-         <div id="divisoria4">
-            <br>
-            <button onclick="limpar()">Limpar</button>
+        <div id="divisoria">
+            <button type="submit">Calcular Pressão Nominal</button>
         </div>
-
-        <div id="divisoria4">
-            <br>
-            <label id="res">Resultado: </label>
-        </div>
-
     </form>
 
-
-
     <script>
-        function somar(event) {
+        function calcular(){
+             event.preventDefault();
 
-            event.preventDefault(); // Impede a submissão do form
+             // Considerando a perda de carga: 1 mang de 15 m de 1,5" = 0.825 bar
+             // Considerando a perda de carga: 1 mang de 15 m de 2,5" =  0.34 bar
+             // Considerando que 1 pavimento de 3 m = 0.333 bar
+             var Pc = qtdPavimentos * 0.333 + PqtdMangueira1 * 0.825 * + PqtdMangueira2 * 0.34;
 
-            const v1 = document.getElementById("campo1").value;
-            const v2 = document.getElementById("campo2").value;
-            const v3 = parseFloat(v1) + parseFloat(v2);
-
-            document.getElementById("res").innerText = "Resultado: " + v3;
-        }
-
-        function limpar() {
-            document.getElementById("campo1").value = "";
-            document.getElementById("campo2").value = "";
-            document.getElementById("res").innerText = "Resultado: ";
+             const Pr = 7; // Pressão em Bar
+             var Pn = Pr = Pc;
         }
     </script>
-
+    
 </body>
-
 </html>
