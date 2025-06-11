@@ -1,66 +1,277 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pressão na ABT</title>
 
     <style>
-         body {
+        body {
+            background-image: url('assets/img/logo2.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
         }
-        span{
-            font-size: 10px;
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            max-width: 400px;
+            background: #fff;
+            opacity: 0.8;
+        }
+
+        span {
+            font-size: 14px;
             color: #f33636;
         }
 
-        #divisoria{
+        label {
+            font-weight: 600;
+            color: #000000;
+        }
+
+        input,
+        button {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #aaa;
+            font-size: 14px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button:hover {
+            background: #c73232;
+            color: #fff;
+        }
+
+        #divisoria {
+            margin-top: 8px;
+        }
+
+        #aboutBox {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            max-width: 80%;
+            width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+            opacity: 0.95;
+            text-align: center;
+        }
+
+        #aboutBox h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        #aboutBox p {
+            margin-bottom: 5px;
+            color: #555;
+            text-align: center;
+        }
+
+        #aboutBox ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        #aboutBox ul li {
+            margin-bottom: 3px;
+        }
+
+        #aboutBox .closeButton {
+            background-color: #c73232;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
             margin-top: 15px;
+        }
+
+        #aboutBox .closeButton:hover {
+            background-color: #a02a2a;
+        }
+
+        .form-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .form-buttons button {
+            width: 50%;
+        }
+
+        @media (max-width: 500px) {
+            form {
+                width: 80%;
+            }
+
+            #aboutBox {
+                width: 90%;
+                padding: 15px;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <form onsubmit="calcular(event)">
+        <div id="divisoria" style="text-align: center;">
+            <img src="assets/img/academia.png" style="width: 20%;">
+            <h4>Calculadora de Perda de Carga</h4>
+        </div>
         <div id="divisoria">
-            <label>Quantidade de pavimentos: </label><br>
+            <label for="qtdPavimentos">Quantidade de pavimentos: </label><br>
             <input id="qtdPavimentos" type="number" required><br>
         </div>
 
-         <div id="divisoria">
-            <label>Quantidade de mangueiras [1,5"]: </label><br>
+        <div id="divisoria">
+            <label for="qtdMangueira1">Quantidade de mangueiras [1,5"]: </label><br>
             <input id="qtdMangueira1" type="number" required><br>
             <span>Preencher com 0 caso não se aplique</span><br>
         </div>
 
         <div id="divisoria">
-            <label>Quantidade de mangueiras [2,5"]: </label><br>
+            <label for="qtdMangueira2">Quantidade de mangueiras [2,5"]: </label><br>
             <input id="qtdMangueira2" type="number" required><br>
             <span>Preencher com 0 caso não se aplique</span>
         </div>
 
         <div id="divisoria">
+            <label for="pr">Pressão Residual [Pr]: </label><br>
+            <input id="pr" type="number" value="7" required><br>
+            <span>Valor máximo permitido = 7 Bar</span>
+        </div>
+
+        <div id="divisoria">
             <button type="submit">Calcular Pressão Nominal</button>
+        </div>
+
+        <div id="divisoria" style="text-align: center;">
+            <label id="res" style="font-size: 20px;">Resultado: </label>
+        </div>
+
+        <div class="form-buttons">
+            <button type="button" onclick="limparCampos()">Limpar Campos</button>
+            <button type="button" onclick="mostrarSobre()">Sobre</button>
         </div>
     </form>
 
+    <div id="aboutBox">
+        <h3>SOBRE</h3>
+        <hr>
+        <p>
+            <b>Diretor do CFO Bombeiro Militar - UEMA:</b> Prof. Dr. Adilto Pereira Andrade Cunha
+        </p>
+        <p>
+            <b>Professor Orientador e Desenvolvedor:</b> Prof. Me. Carlos Ronyhelton Santana de Oliveira
+        </p>
+        <p>
+            <b>Equipe de Desenvolvedores - Turma 17 do CFO Bombeiro Militar - UEMA:</b>
+        </p>
+        <ul>
+            <li>Alexander Pietro Fonseca de Oliveira</li>
+            <li>Ana Carolina Sampaio Calvet</li>
+            <li>Ana Flavia Campos Tavares</li>
+            <li>Anderson Vasconcelos dos Anjos</li>
+            <li>Antonio Victor Pinheiro Costa Amorim</li>
+            <li>Breno Tadeu de Oliveira de Souza</li>
+            <li>Damon Lima Lopes</li>
+            <li>Daniel Borges Oliveira</li>
+            <li>Daniel Pedro de Oliveira Pereira</li>
+            <li>Edlauro Viana Lima Junior</li>
+            <li>Emerson Lucas Tomaz da Silva</li>
+            <li>Felipe Carvalho de Souza</li>
+            <li>Gabriel Marcelo Costa de Oliveira</li>
+            <li>Gustavo de Souza Pires</li>
+            <li>Henrique Costa Rocha Almeida</li>
+            <li>Igor Moreira Pontes</li>
+            <li>Israel Lima Prado</li>
+            <li>Iuri Ferreira Falcao Junior</li>
+            <li>Iury Roberto Costa de Sousa</li>
+            <li>João Marcos Sousa Barreto</li>
+            <li>Juliana Soares Coelho</li>
+            <li>Julyene Cristinne França Alves</li>
+            <li>Kawan Vytor Leite Teixeira</li>
+            <li>Laio Martins Rodovalho</li>
+            <li>Lea Rafaela Rezende Sales</li>
+            <li>Lucas Cunha da Silva</li>
+            <li>Luis Cesar Costa Júnior</li>
+            <li>Mariana Santos Guilhon</li>
+            <li>Paula Louyanne de Almeida Santos</li>
+            <li>Ronald Barros Costa</li>
+            <li>Samuel Gomes dos Santos</li>
+            <li>Saullo Dione Serra Alvares</li>
+            <li>Tainam Ferreira da Costa</li>
+            <li>Wellison da Rocha Teixeira</li>
+            <hr>
+        </ul>
+        <p>
+            <b>Calculadora de Perda de Carga. v01. 2025. Todos os direitos reservados.</b>
+        </p>
+        <button class="closeButton" onclick="fecharSobre()">FECHAR</button>
+    </div>
+
     <script>
-        function calcular(){
-             event.preventDefault();
+        function calcular() {
+            event.preventDefault();
 
-             // Considerando a perda de carga: 1 mang de 15 m de 1,5" = 0.825 bar
-             // Considerando a perda de carga: 1 mang de 15 m de 2,5" =  0.34 bar
-             // Considerando que 1 pavimento de 3 m = 0.333 bar
-             var Pc = qtdPavimentos * 0.333 + PqtdMangueira1 * 0.825 * + PqtdMangueira2 * 0.34;
+            const qtdPavimentos = parseFloat(document.getElementById("qtdPavimentos").value);
+            const PqtdMangueira1 = parseFloat(document.getElementById("qtdMangueira1").value);
+            const PqtdMangueira2 = parseFloat(document.getElementById("qtdMangueira2").value);
+            const Pr = parseFloat(document.getElementById("pr").value);
 
-             const Pr = 7; // Pressão em Bar
-             var Pn = Pr = Pc;
+            const Pc = qtdPavimentos * 0.3 + PqtdMangueira1 * 2.05 + PqtdMangueira2 * 0.3;
+
+            var Pn = Pr + Pc;
+            document.getElementById("res").innerText = "Resultado: " + Pn.toFixed(2) + " Bar";
+        }
+
+        function limparCampos() {
+            document.getElementById("qtdPavimentos").value = "";
+            document.getElementById("qtdMangueira1").value = "";
+            document.getElementById("qtdMangueira2").value = "";
+            document.getElementById("pr").value = "7";
+            document.getElementById("res").innerText = "Resultado: ";
+        }
+
+        function mostrarSobre() {
+            document.getElementById("aboutBox").style.display = "block";
+        }
+
+        function fecharSobre() {
+            document.getElementById("aboutBox").style.display = "none";
         }
     </script>
-    
+
 </body>
+
 </html>
