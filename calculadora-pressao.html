@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Cálculos - CFO Bombeiros</title>
+    <title>Calculadora de Perda de Carga</title>
 
     <style>
         body {
@@ -30,65 +30,115 @@
             max-width: 1200px;
         }
 
-        .menu-container {
+        form {
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            padding: 25px;
+            gap: 10px;
+            padding: 18px;
             border: 1px solid #ccc;
-            border-radius: 10px;
-            max-width: 450px;
-            width: 100%;
+            border-radius: 6px;
             background: #fff;
             opacity: 0.95;
-            text-align: center;
+            max-width: 400px;
+            width: 100%;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
-        .menu-title {
+        .form-title {
+            text-align: center;
+            margin-bottom: 12px;
             color: #333;
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            border-bottom: 3px solid #c73232;
-            padding-bottom: 10px;
-        }
-
-        .menu-button {
-            padding: 18px 15px;
-            background: linear-gradient(135deg, #c73232, #a02a2a);
-            color: white;
-            border: none;
-            border-radius: 8px;
             font-size: 16px;
             font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            margin-top: 8px;
-            text-decoration: none;
-            display: block;
+            border-bottom: 2px solid #c73232;
+            padding-bottom: 6px;
         }
 
-        .menu-button:hover {
-            background: linear-gradient(135deg, #a02a2a, #851e1e);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        .back-button {
+            background-color: #666;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 11px;
+            margin-bottom: 10px;
+            transition: background-color 0.3s ease;
+            width: auto;
+            align-self: flex-end;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .back-button:hover {
+            background-color: #555;
+        }
+
+        span {
+            font-size: 12px;
+            color: #f33636;
+        }
+
+        label {
+            font-weight: 600;
+            color: #000000;
+            font-size: 14px;
+        }
+
+        input,
+        button {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #aaa;
+            font-size: 14px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #c73232;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #a02a2a;
         }
 
         .secondary-button {
-            background: linear-gradient(135deg, #666, #555);
+            background-color: #666;
         }
 
         .secondary-button:hover {
-            background: linear-gradient(135deg, #555, #444);
+            background-color: #555;
         }
 
-        .menu-description {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.9);
+        #divisoria {
+            margin-top: 6px;
+        }
+
+        .form-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
             margin-top: 8px;
-            line-height: 1.4;
+        }
+
+        .form-buttons button {
+            width: 50%;
+        }
+
+        .result-display {
+            background-color: #f0f8ff;
+            border: 2px solid #c73232;
+            border-radius: 6px;
+            padding: 8px;
+            text-align: center;
+            font-weight: bold;
+            color: #333;
+            margin-top: 8px;
         }
 
         .modal {
@@ -156,20 +206,9 @@
                 width: 100%;
             }
 
-            .menu-container {
-                padding: 20px;
-                gap: 15px;
+            form {
+                padding: 15px;
                 max-width: 100%;
-            }
-
-            .menu-button {
-                padding: 15px 12px;
-                font-size: 15px;
-                margin-top: 6px;
-            }
-
-            .menu-description {
-                font-size: 13px;
             }
 
             .modal {
@@ -184,19 +223,14 @@
                 padding: 15px 5px;
             }
 
-            .menu-container {
-                padding: 15px;
-                gap: 12px;
+            form {
+                padding: 12px;
+                gap: 8px;
+                max-width: 100%;
             }
 
-            .menu-button {
-                padding: 12px 10px;
-                font-size: 14px;
-                margin-top: 5px;
-            }
-
-            .menu-title {
-                font-size: 18px;
+            .form-title {
+                font-size: 15px;
                 margin-bottom: 10px;
             }
         }
@@ -206,30 +240,50 @@
 <body>
 
     <div class="main-content">
-        <div class="menu-container">
-            <div style="text-align: center;">
-                <img src="assets/img/academia.png" style="width: 25%; margin-bottom: 15px;">
+        <form onsubmit="calcularPressao(event)">
+            <a href="index.html" class="back-button">← Voltar ao Menu</a>
+            
+            <div id="divisoria" style="text-align: center;">
+                <img src="assets/img/academia.png" style="width: 20%;">
+                <div class="form-title">CALCULADORA DE PERDA DE CARGA</div>
             </div>
-            <div class="menu-title">SISTEMA DE CÁLCULOS</div>
             
-            <a href="calculadora-pressao.html" class="menu-button">
-                CALCULADORA DE PERDA DE CARGA
-                <div class="menu-description">
-                    Calcule a pressão nominal necessária considerando pavimentos, mangueiras e pressão residual
-                </div>
-            </a>
-            
-            <a href="calculadora-epr.html" class="menu-button">
-                CALCULADORA DE EPR
-                <div class="menu-description">
-                    Calcule o tempo de trabalho do equipamento de proteção respiratória baseado na capacidade física
-                </div>
-            </a>
+            <div id="divisoria">
+                <label for="qtdPavimentos">Quantidade de pavimentos:</label><br>
+                <input id="qtdPavimentos" type="number" required><br>
+            </div>
 
-            <button class="menu-button secondary-button" onclick="mostrarSobre()">
-                SOBRE O SISTEMA
-            </button>
-        </div>
+            <div id="divisoria">
+                <label for="qtdMangueira1">Quantidade de mangueiras [1,5"]:</label><br>
+                <input id="qtdMangueira1" type="number" required><br>
+                <span>Preencher com 0 caso não se aplique</span><br>
+            </div>
+
+            <div id="divisoria">
+                <label for="qtdMangueira2">Quantidade de mangueiras [2,5"]:</label><br>
+                <input id="qtdMangueira2" type="number" required><br>
+                <span>Preencher com 0 caso não se aplique</span>
+            </div>
+
+            <div id="divisoria">
+                <label for="pr">Pressão Residual [Pr]:</label><br>
+                <input id="pr" type="number" value="7" required><br>
+                <span>Valor máximo permitido = 7 Bar</span>
+            </div>
+
+            <div id="divisoria">
+                <button type="submit">Calcular Pressão Nominal</button>
+            </div>
+
+            <div class="result-display">
+                <label id="resPressao" style="font-size: 16px;">Resultado: </label>
+            </div>
+
+            <div class="form-buttons">
+                <button type="button" class="secondary-button" onclick="limparCampos()">Limpar Campos</button>
+                <button type="button" class="secondary-button" onclick="mostrarSobre()">Sobre</button>
+            </div>
+        </form>
     </div>
 
     <!-- Modal Sobre -->
@@ -289,6 +343,31 @@
     </div>
 
     <script>
+        // Função para calcular pressão nominal
+        function calcularPressao() {
+            event.preventDefault();
+
+            const qtdPavimentos = parseFloat(document.getElementById("qtdPavimentos").value);
+            const PqtdMangueira1 = parseFloat(document.getElementById("qtdMangueira1").value);
+            const PqtdMangueira2 = parseFloat(document.getElementById("qtdMangueira2").value);
+            const Pr = parseFloat(document.getElementById("pr").value);
+
+            const Pc = qtdPavimentos * 0.3 + PqtdMangueira1 * 2.05 + PqtdMangueira2 * 0.3;
+
+            var Pn = Pr + Pc;
+            document.getElementById("resPressao").innerText = "Pressão Nominal: " + Pn.toFixed(2) + " Bar";
+        }
+
+        // Função para limpar campos
+        function limparCampos() {
+            document.getElementById("qtdPavimentos").value = "";
+            document.getElementById("qtdMangueira1").value = "";
+            document.getElementById("qtdMangueira2").value = "";
+            document.getElementById("pr").value = "7";
+            document.getElementById("resPressao").innerText = "Resultado: ";
+        }
+
+        // Funções para modal
         function mostrarSobre() {
             document.getElementById("aboutBox").style.display = "block";
         }
